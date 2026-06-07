@@ -325,7 +325,7 @@ export default function TopBar() {
             </p>
           </div>
           <button
-            onClick={() => joinVoice(project._id, token, user)}
+            onClick={() => joinVoice(project._id, token, user, { requirePeer: true })}
             className="flex items-center gap-1.5 bg-accent text-surface-0 font-semibold text-xs rounded-lg px-3.5 py-2 hover:brightness-110 active:scale-[0.97] transition-all"
           >
             <Phone size={12} />

@@ -79,7 +79,8 @@ function closePeer(id) {
   pcs.delete(id);
 }
 
-export async function joinVoice(projectId, token, user) {
+export async function joinVoice(projectId, token, user, options = {}) {
+  const { requirePeer = false } = options;
   if (ws || state.joining) return;
   setState({ joining: true });
 
@@ -100,6 +101,10 @@ export async function joinVoice(projectId, token, user) {
   ws.onmessage = async (e) => {
     const msg = JSON.parse(e.data);
     if (msg.type === 'peers') {
+      if (requirePeer && msg.peers.length === 0) {
+        leaveVoice();
+        return;
+      }
       setState({ inVoice: true, joining: false, peers: msg.peers });
       setVoicePresence(true); // others see me "in call" → their phone rings
       for (const p of msg.peers) await offerTo(p.id); // newcomer initiates
@@ -107,7 +112,12 @@ export async function joinVoice(projectId, token, user) {
       setState({ peers: [...state.peers, { id: msg.id, user: msg.user }] });
     } else if (msg.type === 'peer-left') {
       closePeer(msg.id);
-      setState({ peers: state.peers.filter((p) => p.id !== msg.id) });
+      const peers = state.peers.filter((p) => p.id !== msg.id);
+      if (peers.length === 0) {
+        leaveVoice();
+        return;
+      }
+      setState({ peers });
     } else if (msg.type === 'signal') {
       await handleSignal(msg.from, msg.data);
     }
