@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
+import { getSocketBaseUrl } from './apiBase';
 
 // One collab session per open project. Each file's content lives in a Y.Text
 // keyed by its path; Monaco binds to the active one (see EditorPanel).
@@ -153,9 +154,7 @@ export function initCollab(project, user, token, { onRemoteChange, getFiles }) {
   destroyCollab();
 
   const doc = new Y.Doc();
-  const wsBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api')
-    .replace(/^http/, 'ws')
-    .replace(/\/api\/?$/, '');
+  const wsBase = getSocketBaseUrl();
   const provider = new WebsocketProvider(`${wsBase}/yjs`, project._id, doc, {
     params: { token },
   });

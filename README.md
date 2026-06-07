@@ -20,7 +20,6 @@ npm run dev            # → http://localhost:5000
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # VITE_API_URL=http://localhost:5000/api
 npm run dev            # → http://localhost:5173
 ```
 
@@ -67,10 +66,9 @@ npm run dev            # → http://localhost:5173
 ### 3. Frontend on Vercel
 1. Vercel → **Add New → Project** → pick the repo
 2. **Root Directory** `frontend` (framework auto-detects Vite)
-3. Environment variable: `VITE_API_URL` = `https://abhide-backend.onrender.com/api`
-4. Deploy. `vercel.json` already sets the **COOP/COEP headers** WebContainer needs
+3. Deploy. `vercel.json` already sets the **COOP/COEP headers** WebContainer needs
    and the SPA fallback — no extra config.
-5. Go back to Render and set `CLIENT_URL` to your exact Vercel URL
+4. Go back to Render and set `CLIENT_URL` to your exact Vercel URL
    (e.g. `https://abhide.vercel.app`, no trailing slash) so CORS allows it.
 
 ### Gotchas

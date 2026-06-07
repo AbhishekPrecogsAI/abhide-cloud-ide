@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { setVoicePresence } from './collab';
+import { getSocketBaseUrl } from './apiBase';
 
 // WebRTC voice mesh. Signaling relays through our backend at /rtc/<projectId>.
 // Strategy: the JOINING client offers to every existing member (no glare).
@@ -90,9 +91,7 @@ export async function joinVoice(projectId, token, user) {
     return;
   }
 
-  const wsBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api')
-    .replace(/^http/, 'ws')
-    .replace(/\/api\/?$/, '');
+  const wsBase = getSocketBaseUrl();
   ws = new WebSocket(`${wsBase}/rtc/${projectId}?token=${token}`);
 
   ws.onopen = () =>
