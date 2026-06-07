@@ -1,0 +1,21 @@
+# Render blueprint — deploys the backend as a web service.
+# Render auto-detects this file if you create a "Blueprint" from the repo.
+services:
+  - type: web
+    name: abhide-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false # paste your Atlas URI in the dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        sync: false # your Vercel URL, e.g. https://abhide.vercel.app

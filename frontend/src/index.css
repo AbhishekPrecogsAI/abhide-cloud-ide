@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-surface-0 text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    background: #6ee7b74d;
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full bg-surface-2 border border-subtle rounded-lg px-3.5 py-2.5 text-sm text-ink
+      placeholder:text-ink-faint outline-none transition-colors
+      focus:border-accent/50 focus:ring-1 focus:ring-accent/30;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-surface-0 font-semibold rounded-lg px-4 py-2.5 text-sm
+      transition-all hover:brightness-110 active:scale-[0.98]
+      disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-ghost {
+    @apply text-ink-dim rounded-lg px-3 py-2 text-sm transition-colors
+      hover:text-ink hover:bg-surface-3;
+  }
+}
+
+/* Subtle dotted-grid backdrop for auth/dashboard pages */
+.grid-bg {
+  background-image: radial-gradient(circle, #ffffff0a 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ---- Glassmorphism ---- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.input-glass {
+  @apply w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-ink
+    placeholder:text-ink-faint outline-none transition-all duration-300
+    focus:border-accent/50 focus:bg-white/[0.06] focus:shadow-[0_0_0_3px_rgba(110,231,183,0.08)];
+}
+
+.btn-glow {
+  @apply bg-accent text-surface-0 font-semibold rounded-xl px-4 py-3 text-sm
+    transition-all duration-300 active:scale-[0.98]
+    shadow-[0_8px_24px_-8px_rgba(110,231,183,0.5)]
+    hover:shadow-[0_8px_32px_-4px_rgba(110,231,183,0.6)] hover:brightness-110
+    disabled:opacity-50 disabled:pointer-events-none;
+}
+
+/* Ambient drifting glow orbs */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+}
+.orb-mint {
+  width: 480px;
+  height: 480px;
+  background: rgba(110, 231, 183, 0.13);
+  top: -140px;
+  left: -120px;
+  animation: drift-a 18s ease-in-out infinite alternate;
+}
+.orb-violet {
+  width: 440px;
+  height: 440px;
+  background: rgba(167, 139, 250, 0.09);
+  bottom: -140px;
+  right: -100px;
+  animation: drift-b 22s ease-in-out infinite alternate;
+}
+.orb-sky {
+  width: 320px;
+  height: 320px;
+  background: rgba(125, 211, 252, 0.06);
+  top: 40%;
+  left: 45%;
+  animation: drift-a 26s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift-a {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(90px, 70px) scale(1.18); }
+}
+@keyframes drift-b {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-80px, -60px) scale(1.12); }
+}
+
+/* Thin dark scrollbars everywhere */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #26262e transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #26262e;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #34343e;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* xterm fills its panel */
+.terminal-host .xterm {
+  height: 100%;
+  padding: 8px 12px;
+}
